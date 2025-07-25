@@ -229,19 +229,24 @@
 }
 
 .today-button {
-  background-color: #333;
+  background-color: #10b981;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 20px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .today-button:hover {
-  background-color: #555;
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
 }
 
 .calendar-wrapper {

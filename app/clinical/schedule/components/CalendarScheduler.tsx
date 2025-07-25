@@ -23,6 +23,7 @@ import { mockAppointments, professionals, rooms } from "../data/mockData"
 import type { Appointment } from "../types/calendar"
 import { ChevronLeft, ChevronRight, Users, MapPin } from "lucide-react"
 import AppointmentModal from "./AppointmentModal"
+import { NewAppointmentModal } from "@/components/new-appointment-modal"
 import "./CalendarScheduler.css"
 
 const locales = {
@@ -48,6 +49,7 @@ const CalendarScheduler: React.FC = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
   const [selectedProfessionals, setSelectedProfessionals] = useState<string[]>(professionals.map((p) => p.id))
   const [selectedRooms, setSelectedRooms] = useState<string[]>(rooms.map((r) => r.id))
+  const [showNewAppointmentModal, setShowNewAppointmentModal] = useState(false)
 
   const events: CalendarEvent[] = useMemo(() => {
     return mockAppointments
@@ -152,6 +154,13 @@ const CalendarScheduler: React.FC = () => {
 
   const toggleRoom = (roomId: string) => {
     setSelectedRooms((prev) => (prev.includes(roomId) ? prev.filter((id) => id !== roomId) : [...prev, roomId]))
+  }
+
+  const handleNewAppointment = (appointment: any) => {
+    // Aqui você pode adicionar a lógica para salvar o novo agendamento
+    console.log('Novo agendamento:', appointment)
+    // Por enquanto, apenas fechamos o modal
+    setShowNewAppointmentModal(false)
   }
 
   const generateMiniCalendar = () => {
@@ -260,8 +269,12 @@ const CalendarScheduler: React.FC = () => {
             </button>
           </div>
           <div className="view-controls">
-            <button className="today-button" onClick={() => handleNavigate(new Date())}>
-              Hoje
+            <button 
+              className="today-button" 
+              onClick={() => setShowNewAppointmentModal(true)}
+              style={{ backgroundColor: '#10b981', borderColor: '#10b981' }}
+            >
+              + Novo Agendamento
             </button>
           </div>
         </div>
@@ -311,6 +324,12 @@ const CalendarScheduler: React.FC = () => {
       {selectedAppointment && (
         <AppointmentModal appointment={selectedAppointment} onClose={() => setSelectedAppointment(null)} />
       )}
+
+      <NewAppointmentModal
+        isOpen={showNewAppointmentModal}
+        onClose={() => setShowNewAppointmentModal(false)}
+        onSave={handleNewAppointment}
+      />
     </div>
   )
 }
